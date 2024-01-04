@@ -3,28 +3,32 @@
  */
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 
 using std::cout;
 using std::endl;
 using std::vector;
+using std::unordered_map;
 
 class Solution {
  public:
     vector<int> twoSum(vector<int>& nums, int target) {
       int len = nums.size();
-      std::vector<int> ret;
+      unordered_map<int, int> m;
 
-      for (int i = 0; i < len-1; i++) {
-        for (int j = i+1; j < len; j++) {
-          if ((nums[i]+nums[j]) == target) {
-            ret.push_back(i);
-            ret.push_back(j);
-            break;
-          }
+      for (int i = 0; i < len; i++) {
+        int complement = target-nums[i];
+        if (m.find(complement) != m.end()) {
+          // found the combination of target
+          return {m[complement], i};
+        } else {
+          // insert new element
+          m[nums[i]] = i;
         }
+
       }
 
-      return ret;
+      return {0, 0};
     }
 };
 
