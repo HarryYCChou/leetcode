@@ -41,13 +41,9 @@ class Solution {
         // j = column
 
         // for sub-box
-        for (int k = 0; k < 3; k++) {
-          for (int l = 0; l < 3; l++) {
-            // k = sub box row
-            // l = sub box column
-            line.push_back(board[j+k][i+l]);
-          }
-        }
+        line.insert(line.end(), board[i].begin()+j, board[i].begin()+j+3);
+        line.insert(line.end(), board[i+1].begin()+j, board[i+1].begin()+j+3);
+        line.insert(line.end(), board[i+2].begin()+j, board[i+2].begin()+j+3);
         if (!isValidOneLine(line)) return false;
       }
     }
@@ -57,10 +53,10 @@ class Solution {
 
  private:
   bool isValidOneLine(const vector<char>& line) {
-    unordered_set<char> s;
+    unordered_set<int> s(9);
     for (const auto& c : line) {
       if (c != '.') {
-        if (s.find(c) != s.end()) {
+        if (s.find(c-'0') != s.end()) {
           // debug
           //for (const auto& c : line) {
           //  cout << c << " ";
@@ -69,7 +65,7 @@ class Solution {
 
           return false;
         }
-        s.insert(c);
+        s.insert(c-'0');
       }
     }
 
