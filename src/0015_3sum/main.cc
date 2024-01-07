@@ -26,7 +26,7 @@ class Solution {
 
       j = i + 1;
       k = s_nums.size()-1;
-      while (j < k && j < (s_nums.size() -1)) {
+      while (j < k) {
         // check
         if (s_nums[k] < 0) break;
 
