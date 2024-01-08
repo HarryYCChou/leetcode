@@ -50,6 +50,26 @@ class Solution {
 
     return area;
   }
+
+  int trap2(const vector<int>& height) {
+    int area = 0;
+    int start = 0, end = height.size()-1;
+    int max_h_l = height.front(), max_h_r = height.back();
+
+    while (start < end) {
+      if (height[start] >= height[end]) {
+        // move right and check right heightest
+        max_h_r = max(max_h_r, height[--end]);
+        area += max_h_r - height[end];
+      } else {
+        // move right and check right heightest
+        max_h_l = max(max_h_l, height[++start]);
+        area += max_h_l - height[start];
+      }
+    }
+
+    return area;
+  }
 };
 
 void print_ret(const int& ret) {
@@ -64,13 +84,13 @@ int main() {
   // example 1
   height.clear();
   height = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
-  ret = s.trap(height);
+  ret = s.trap2(height);
   print_ret(ret);
 
   // example 2
   height.clear();
   height = {4, 2, 0, 3, 2, 5};
-  ret = s.trap(height);
+  ret = s.trap2(height);
   print_ret(ret);
 
   return 0;
