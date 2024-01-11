@@ -8,18 +8,21 @@
 using std::cout;
 using std::endl;
 using std::vector;
-using std::sort;
+using std::max;
+using std::max_element;
 
 class Solution {
  public:
   int minEatingSpeed(const vector<int>& piles, int h) {
     // mininum hour 1 <= min_h <= max(piles)
-    vector<int> spiles = piles;
-    sort(spiles.begin(), spiles.end());
-
     int speed_l = 1;
-    int speed_r = spiles[spiles.size()-1];
+    int speed_r = piles[0];
     int speed_mid;
+
+    // find the maximum by max_element
+    auto e = max_element(piles.begin(), piles.end());
+    speed_r = *e;
+
     while (speed_l<speed_r) {
       speed_mid = (speed_l+speed_r)/2;
       
