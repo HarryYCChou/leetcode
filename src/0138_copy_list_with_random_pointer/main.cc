@@ -16,7 +16,7 @@ class Node {
   Node* next;
   Node* random;
 
-  Node(int _val) {
+  explicit Node(int _val) {
     val = _val;
     next = NULL;
     random = NULL;
@@ -25,6 +25,37 @@ class Node {
 
 class Solution {
  public:
+  unordered_map<Node*, Node*> map;
+  Node* copyRandomList(Node* head) {
+    Node* new_head = nullptr;
+    new_head = copySingleNode(head);
+
+    return new_head;
+  }
+
+  Node* copySingleNode2(Node* node) {
+    if (node == nullptr) return nullptr;
+
+    Node* c = new Node(node->val);
+    map.insert(make_pair(node, c));
+
+    // copy next
+    if (map.find(node->next) != map.end()) {
+      c->next = map[node->next];
+    } else {
+      Node* next = copySingleNode(node->next);
+      c->next = next;
+    }
+    // copy random
+    if (map.find(node->random) != map.end()) {
+      c->random = map[node->random];
+    } else {
+      Node* r = copySingleNode(node->random);
+      c->random = r;
+    }
+    return c;
+  }
+
   Node* copyRandomList(Node* head) {
     Node* cur = head;
     Node* cur2 = NULL;  // for copied list
