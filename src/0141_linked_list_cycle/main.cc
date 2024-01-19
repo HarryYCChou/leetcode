@@ -16,6 +16,19 @@ struct ListNode {
 
 class Solution {
  public:
+  bool hasCycle2(ListNode *head) {
+    ListNode* trap = new ListNode();
+    ListNode* cur = head;
+    ListNode* prev = head;
+    while (cur != NULL) {
+      if (cur == trap) return true;
+      prev = cur;
+      cur = cur->next;
+      prev->next = trap;
+    }
+    return false;
+  }
+
   bool hasCycle(ListNode *head) {
     ListNode* cur = head;
     int count = 0;
