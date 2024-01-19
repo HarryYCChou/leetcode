@@ -2,9 +2,11 @@
  *  2024 Copyright Harry Chou
  */
 #include <iostream>
+#include <stack>
 
 using std::cout;
 using std::endl;
+using std::stack;
 
 struct ListNode {
   int val;
@@ -16,6 +18,37 @@ struct ListNode {
 
 class Solution {
  public:
+  void reorderList2(ListNode* head) {
+    stack<ListNode*> stk;
+    int count = 0;
+    ListNode* cur = head;
+
+    while (cur != nullptr) {
+      stk.push(cur);
+      count++;
+      cur = cur->next;
+    }
+
+    cur = head;
+    ListNode* cur2 = head->next;
+    ListNode* end;
+
+    for (int i = 0; i < count/2; i++) {
+      end = stk.top();
+      end->next = nullptr;
+      stk.pop();
+      end->next = cur2;
+      cur->next = end;
+      cur = cur2;
+      cur2 = cur2->next;
+    }
+    if (count % 2 == 0) {
+      end->next = nullptr;
+    } else {
+      stk.top()->next = nullptr;
+    }
+  }
+
   void reorderList(ListNode* head) {
     ListNode* cur = head;
     while (cur->next != NULL) {
