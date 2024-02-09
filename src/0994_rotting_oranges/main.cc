@@ -3,52 +3,47 @@
  */
 #include <iostream>
 #include <vector>
-#include <stack>
+#include <queue>
 
 using std::cout;
 using std::endl;
 using std::vector;
-using std::stack;
+using std::queue;
 
 class Solution {
  public:
   int m;
   int n;
-  stack<vector<int>> stk;
+  queue<vector<int>> rotted;
 
   int orangesRotting(vector<vector<int>>& grid) {
     m = grid.size();
     n = grid[0].size();
-    vector<vector<int>> rotted;
     int ret = 0;
     int f_count = 0;
 
     for (int i = 0; i < m; i++) {
       for (int j = 0; j < n; j++) {
-        if (grid[i][j] == 2) rotted.push_back({i, j});
+        if (grid[i][j] == 2) rotted.push({i, j});
         if (grid[i][j] == 1) f_count++;
       }
     }
 
-    while (f_count > 0) {
-      for (const auto& v : rotted) {
-        rotting(grid, v[0] - 1, v[1], f_count);
-        rotting(grid, v[0] + 1, v[1], f_count);
-        rotting(grid, v[0], v[1] - 1, f_count);
-        rotting(grid, v[0], v[1] + 1, f_count);
+    while (!rotted.empty() && f_count != 0) {
+      int count = rotted.size();
+      for (int i = 0; i < count; i++) {
+        int x = rotted.front()[0];
+        int y = rotted.front()[1];
+        rotting(grid, x - 1, y, f_count);
+        rotting(grid, x + 1, y, f_count);
+        rotting(grid, x, y - 1, f_count);
+        rotting(grid, x, y + 1, f_count);
+        rotted.pop();
       }
-
-      // new rotted orange not found
-      if (stk.empty()) return -1;
-      while (!stk.empty()) {
-        rotted.push_back({stk.top()[0], stk.top()[1]});
-        stk.pop();
-      }
-
       ret++;
     }
 
-    return ret;
+    return (f_count == 0) ? ret : -1;
   }
 
   void rotting(vector<vector<int>>& grid,
@@ -56,7 +51,7 @@ class Solution {
     if (row < 0 || col < 0 || row >= m || col >= n || f_count == 0) return;
     if (grid[row][col] == 1) {
       grid[row][col] = 2;
-      stk.push({row, col});
+      rotted.push({row, col});
       f_count--;
     }
   }
