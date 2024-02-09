@@ -16,6 +16,42 @@ class Solution {
   int n;
   stack<vector<int>> stk;
 
+  void solve2(vector<vector<char>>&board) {
+    m = board.size();
+    n = board[0].size();
+
+    // solve from edge
+    for (int i = 0; i < m; i++) {
+      mark(board, i, 0);
+      mark(board, i, n - 1);
+    }
+    for (int j = 0; j < n; j++) {
+      mark(board, 0, j);
+      mark(board, m - 1, j);
+    }
+
+    for (int i = 0; i < m; i++) {
+      for (int j = 0; j < n; j++) {
+        if (board[i][j] == 'O') board[i][j] = 'X';
+        else if (board[i][j] == 'E') board[i][j] = 'O';
+      }
+    }
+  }
+
+  void mark(vector<vector<char>>&board, int row, int col) {
+    if (row < 0 || col < 0 || row >= m || col >= n) {
+      return;
+    }
+
+    if (board[row][col] == 'O') {
+      board[row][col] = 'E';
+      mark(board, row - 1, col);
+      mark(board, row + 1, col);
+      mark(board, row, col - 1);
+      mark(board, row, col + 1);
+    }
+  }
+
   void solve(vector<vector<char>>&board) {
     m = board.size();
     n = board[0].size();
@@ -73,12 +109,12 @@ int main() {
            {'X', 'O', 'O', 'X'},
            {'X', 'X', 'O', 'X'},
            {'X', 'O', 'X', 'X'}};
-  s.solve(board);
+  s.solve2(board);
   print_ret(board);
 
   // example 2
   board = {{'X'}};
-  s.solve(board);
+  s.solve2(board);
   print_ret(board);
 
   // example 3
@@ -87,7 +123,7 @@ int main() {
            {'X', 'O', 'X', 'O', 'X'},
            {'O', 'X', 'O', 'O', 'O'},
            {'X', 'X', 'O', 'X', 'O'}};
-  s.solve(board);
+  s.solve2(board);
   print_ret(board);
 
   return 0;
