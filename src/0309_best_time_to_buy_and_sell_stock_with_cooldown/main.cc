@@ -14,8 +14,25 @@ using std::unordered_map;
 
 class Solution {
  public:
-  // 2d DP + state machine method
+  // 2d DP concise method
   int maxProfit(const vector<int>& prices) {
+    int pre_no_profit = 0;
+    int has_stock_profit = -prices[0];
+    int no_stock_profit = 0;
+
+    for (int i = 1; i < prices.size(); i++) {
+      // hold original stock or buy stock
+      int new_has_stock_profit = max(has_stock_profit,
+                                      pre_no_profit - prices[i]);
+      pre_no_profit = no_stock_profit;
+      no_stock_profit = max(no_stock_profit, has_stock_profit + prices[i]);
+      has_stock_profit = new_has_stock_profit;
+    }
+    return no_stock_profit;
+  }
+
+  // 2d DP + state machine method
+  int maxProfit2(const vector<int>& prices) {
     unordered_map<int, int> no_stock;
     unordered_map<int, int> one_stock;
 
@@ -52,7 +69,7 @@ class Solution {
   }
 
   // 2D DP
-  int maxProfit2(const vector<int>& prices) {
+  int maxProfit3(const vector<int>& prices) {
     int n = prices.size();
     int dp[n + 2][n + 2];
     for (int i = 0; i < n + 2; i++) {
