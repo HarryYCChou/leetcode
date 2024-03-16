@@ -10,6 +10,16 @@ using std::vector;
 
 class Solution {
  public:
+  vector<int> countBits(const int& n) {
+    vector<int> ret(n + 1, 0);
+
+    for (int i = 1; i <= n; i++) {
+      //            i/2        i%2
+      ret[i] = ret[i >> 1] + (i & 1);
+    }
+    return ret;
+  }
+
   vector<int> countBits2(const int& n) {
     vector<int> ret;
     for (int i = 0; i <= n; i++) {
