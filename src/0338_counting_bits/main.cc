@@ -10,7 +10,15 @@ using std::vector;
 
 class Solution {
  public:
-  vector<int> countBits(const int& n) {
+  vector<int> countBits2(const int& n) {
+    vector<int> ret;
+    for (int i = 0; i <= n; i++) {
+      ret.push_back(__builtin_popcount(i));
+    }
+    return ret;
+  }
+
+  vector<int> countBits3(const int& n) {
     vector<int> ret(n + 1);
 
     for (int i = 0; i <= n; i++) {
