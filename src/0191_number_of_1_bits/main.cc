@@ -8,7 +8,18 @@ using std::endl;
 
 class Solution {
  public:
+  // Kernighan's Algorithm
   int hammingWeight(const uint32_t& n) {
+    uint32_t nn = n;
+    int ret = 0;
+    while (nn > 0) {
+      ret++;
+      nn = nn & (nn -1);
+    }
+    return ret;
+  }
+
+  int hammingWeight2(const uint32_t& n) {
     uint32_t nn = n;
     int ret = 0;
 
