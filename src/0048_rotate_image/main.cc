@@ -4,15 +4,29 @@
 #include <iostream>
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 using std::cout;
 using std::endl;
 using std::vector;
 using std::swap;
+using std::reverse;
 
 class Solution {
  public:
   void rotate(vector<vector<int>>& matrix) {
+    int n = matrix.size();
+
+    for (int i = 0; i < n; i++) {
+      for (int j = i + 1; j < n; j++) {
+        // reflection by diagonal
+        swap(matrix[i][j], matrix[j][i]);
+      }
+      reverse(matrix[i].begin(), matrix[i].end());
+    }
+  }
+
+  void rotate2(vector<vector<int>>& matrix) {
     int n = matrix.size();
 
     // from outside to inside circle
